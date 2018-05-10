@@ -16,8 +16,8 @@ defmodule PearsWeb.Router do
   scope "/", PearsWeb do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
-    resources "/images", ImageController
+    get "/", ImageController, :show_random
+    resources "/pears", ImageController
   end
 
   # Other scopes may use custom stacks.
