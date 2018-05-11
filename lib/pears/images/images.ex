@@ -87,7 +87,7 @@ defmodule Pears.Images do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_image(data, type) do
+  def create_image(data, "image/"<>_ = type) do
     create_image(%{binary_data: data, binary_type: type})
   end
   def create_image(attrs \\ %{}) do
