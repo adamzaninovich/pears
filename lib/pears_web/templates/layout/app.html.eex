@@ -13,16 +13,33 @@
   </head>
 
   <body>
+
+
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+      <%= link "Pears 🍐", to: image_path(@conn, :index), class: "navbar-brand" %>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <%= link "Add a 🍐", to: image_path(@conn, :new), class: "btn btn-outline-primary" %>
+          </li>
+        </ul>
+        <ul class="navbar-nav my-2 my-lg-0">
+          <%= render_auth_link(@conn, class: "btn btn-outline-secondary") %>
+        </ul>
+      </div>
+    </nav>
+
+
+
+
     <div class="container">
-      <header class="header">
-        <h1>Pears 🍐</h1>
-        <div class="pull-right">
-          <%= render_auth_link(@conn) %>
-        </div>
-      </header>
 
       <%= if flash = get_flash(@conn, :info) do %>
-      <div class="alert alert-primary" role="alert">
+        <div class="alert alert-primary" role="alert">
         <%= flash %>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
