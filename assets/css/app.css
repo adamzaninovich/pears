@@ -1,1 +1,6 @@
 /* This file is for your main application css. */
+.pull-right{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}

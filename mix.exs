@@ -20,7 +20,7 @@ defmodule Pears.Mixfile do
   def application do
     [
       mod: {Pears.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :ueberauth, :ueberauth_github]
     ]
   end
 
@@ -41,7 +41,9 @@ defmodule Pears.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:httpoison, "~> 1.1"}
+      {:httpoison, "~> 1.1"},
+      {:ueberauth, "~> 0.3"},
+      {:ueberauth_github, "~> 0.4"}
     ]
   end
 
