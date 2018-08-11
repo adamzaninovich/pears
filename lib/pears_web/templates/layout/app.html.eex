@@ -16,6 +16,9 @@
     <div class="container">
       <header class="header">
         <h1>Pears 🍐</h1>
+        <div class="pull-right">
+          <%= render_auth_link(@conn) %>
+        </div>
       </header>
 
       <%= if flash = get_flash(@conn, :info) do %>

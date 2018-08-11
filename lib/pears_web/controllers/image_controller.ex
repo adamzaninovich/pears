@@ -1,5 +1,6 @@
 defmodule PearsWeb.ImageController do
   use PearsWeb, :controller
+  plug PearsWeb.Plugs.RequireAuth when action in [:new, :create, :delete]
 
   alias Pears.Images
   alias Pears.Images.Image
