@@ -27,8 +27,8 @@ defmodule PearsWeb.ImageController do
 
       {:error, message} ->
         conn
-        |> put_flash(:error, "Not an image")
-        |> render("new.html", changeset: Image.url_changeset(%Image{}, nil)
+        |> put_flash(:error, message)
+        |> render("new.html", changeset: Image.url_changeset(%Image{}, nil))
     end
   end
 
