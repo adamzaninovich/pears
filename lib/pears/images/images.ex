@@ -19,18 +19,23 @@ defmodule Pears.Images do
   """
   def create_image_from_url(image_url) do
     with %Ecto.Changeset{valid?: true} <- Image.url_changeset(%Image{}, image_url),
-         {:ok, %HTTPoison.Response{body: data, headers: headers}} <- HTTPoison.get(image_url),
-         {:ok, image} <- create_image(data, get_content_type(headers))
-    do
+         {:ok, %HTTPoison.Response{body: data, headers: headers}} <-
+           HTTPoison.get(image_url, follow_redirect: true),
+         {:ok, image} <- create_image(data, get_content_type(headers)) do
       {:ok, image}
     else
-      %Ecto.Changeset{valid?: false} = changeset -> {:error, changeset}
-      {:error, %Ecto.Changeset{} = changeset} -> {:error, changeset}
+      %Ecto.Changeset{valid?: false} = changeset ->
+        {:error, changeset}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:error, changeset}
+
       {:error, _response} ->
         changeset =
           %Image{}
           |> Image.url_changeset(image_url)
           |> Ecto.Changeset.add_error(:image_url, "Unable to fetch image")
+
         {:error, changeset}
     end
   end
@@ -69,7 +74,7 @@ defmodule Pears.Images do
   def get_image!(id), do: Repo.get!(Image, id)
 
   def get_random_image do
-    Repo.one(from i in Image, order_by: fragment("random()"), limit: 1)
+    Repo.one(from(i in Image, order_by: fragment("random()"), limit: 1))
   end
 
   @doc """
@@ -87,15 +92,19 @@ defmodule Pears.Images do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_image(data, "image/"<>_ = type) do
+  def create_image(data, "image/" <> _ = type) do
     create_image(%{binary_data: data, binary_type: type})
   end
+
+  def create_image(_data, non_image_type) do
+    {:error, "not an image: #{non_image_type}"}
+  end
+
   def create_image(attrs \\ %{}) do
     %Image{}
     |> Image.changeset(attrs)
     |> Repo.insert()
   end
-
 
   @doc """
   Updates a image.

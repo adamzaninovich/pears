@@ -1,6 +1,6 @@
 defmodule PearsWeb.ImageController do
   use PearsWeb, :controller
-  plug PearsWeb.Plugs.RequireAuth when action in [:new, :create, :delete]
+  plug(PearsWeb.Plugs.RequireAuth when action in [:new, :create, :delete])
 
   alias Pears.Images
   alias Pears.Images.Image
@@ -21,8 +21,14 @@ defmodule PearsWeb.ImageController do
         conn
         |> put_flash(:info, "Image created successfully.")
         |> redirect(to: image_path(conn, :index))
-      {:error, changeset} ->
+
+      {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
+
+      {:error, message} ->
+        conn
+        |> put_flash(:error, "Not an image")
+        |> render("new.html", changeset: changeset)
     end
   end
 
